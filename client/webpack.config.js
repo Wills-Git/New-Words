@@ -13,8 +13,8 @@ module.exports = {
     hot: true,
     open: true,
     proxy: {
-        '/api': {
-            target: 'http://http://localhost:8080/',
+        '/auth': {
+            target: 'http://localhost:8080/',
             router: () => 'http://localhost:1234',
             logLevel: 'debug'
         }
@@ -36,8 +36,11 @@ module.exports = {
                         presets:['@babel/preset-env', '@babel/preset-react']
                     }
                 }
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+              },
         ]
     }
-
 }

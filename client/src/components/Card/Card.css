@@ -1,0 +1,50 @@
+
+
+
+
+.card {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid black;
+    font-size: 1rem;
+    
+    
+}
+
+#card_input_vis:hover {
+    border: 1px solid pink
+}
+
+.addImage {
+    display: grid;
+    justify-content: center;
+    grid-row: 300px 300px;
+    grid-column: 400px;
+    align-items: center;
+    
+    gap: 10px;
+}
+.addImage dialog {
+    position: relative;
+    
+  }
+
+.addImage img {
+    height: 1.75in;
+    width: 1.75in;
+    margin: auto;
+    position: relative;
+}
+
+.addImage input {
+    height: 1.5rem;
+    font-size: 1rem;
+    width: 10rem;
+    margin: auto;
+    vertical-align: middle;
+    text-align: center;
+    border: none;
+    background-color: transparent;
+}

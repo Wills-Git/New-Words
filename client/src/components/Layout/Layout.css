@@ -1,0 +1,14 @@
+@media print {
+    
+}
+
+.layout {
+    background-color: pink;
+    position: relative;
+    display: grid;
+    margin: auto;
+    gap:0;
+    grid-template-columns: repeat(3, 2.25in);
+    grid-template-rows: repeat(4,2.25in);
+    grid-auto-columns: none;
+}

@@ -6,10 +6,12 @@ const auth = require('./routes/auth')
 const app = express()
 app.use(express.json())
 
-app.use('/api/auth', auth)
+app.use('/auth', auth)
 
-app.get('/api', (req,res) => {
+app.get('/', (req,res) => {
     res.send('howdy howdy')
 })
+
+
 
 app.listen(PORT)
