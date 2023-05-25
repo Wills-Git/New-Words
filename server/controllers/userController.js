@@ -28,6 +28,7 @@ console.log(req.body.username)
 if(dbCheck && pwCheck){
 console.log("logged in")
 res.locals.userID = dbCheck._id
+res.locals.layouts = dbCheck.layouts
 next()
 }
 } catch(error) {

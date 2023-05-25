@@ -15,7 +15,8 @@ router.post('/create',userController.createUser,sessionController.startSession, 
 router.post('/login', userController.verifyUser,cookieController.setSSIDCookie, (req,res,next) => {
 
     //find data in db and return json layouts
-    res.sendStatus(205)
+    
+    res.status(201).json(res.locals.layouts)
 
 })
 

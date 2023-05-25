@@ -87,13 +87,21 @@ box-shadow:  9px 9px 18px #d0d0d0,
 }
 
 .account{
-
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
 .create-user {
     height:fit-content;
     width: fit-content;
 }
-
+.login-user {
+    height:fit-content;
+    width: fit-content;
+}
 @media print {
     .hero{
         display: none;
