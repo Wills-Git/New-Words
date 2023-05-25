@@ -95,8 +95,8 @@ overflow: visible;
     border: none;
     border-radius: 5px;
 background: #e0e0e0;
-box-shadow:  26px 26px 51px #d0d0d0,
-             -26px -26px 51px #f0f0f0;
+/* box-shadow:  26px 26px 51px #d0d0d0,
+             -26px -26px 51px #f0f0f0; */
 }
 @media print {
     .delete{
