@@ -1,14 +1,71 @@
-@media print {
-    
+
+
+.outer-layout{
+    display:grid;
+    gap: 20px;
 }
 
+.layout-title{
+    margin:auto;
+    font-family: sans-serif;
+    width: 40vw;
+    height: 2rem;
+    font-size: 1.5rem;
+    vertical-align: center;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+
+}
+
+.layout-title:hover{
+    border: 1px solid pink;
+
+}
+
+
 .layout {
-    background-color: pink;
+    border-radius: 5px;
+background: #f7f7f7;
+box-shadow:  9px 9px 18px #d0d0d0,
+             -9px -9px 18px #f0f0f0;
+    width: fit-content;
+    height: fit-content;
     position: relative;
     display: grid;
     margin: auto;
+    overflow: visible;
     gap:0;
+    grid-auto-columns: 2.25in;
     grid-template-columns: repeat(3, 2.25in);
     grid-template-rows: repeat(4,2.25in);
-    grid-auto-columns: none;
+    /* outline: 2px solid black; */
+    page-break-after: always;
+    /* grid-auto-flow: row dense; */
+}
+
+.add-card{
+    background-color: transparent;
+    border: 1px dotted gray;
+    font-size: 4rem; 
+    line-height: 30px;
+    padding-bottom: 11px;
+    box-sizing: content-box;
+}
+
+
+@media print {
+    .layout-title:placeholder-shown{
+        display:none;
+    }
+    .add-card{
+        display:none;
+    }
+    .layout{
+        background: none;
+box-shadow:  none;
+    }
+    .add-card{
+        display: none;
+    }
 }

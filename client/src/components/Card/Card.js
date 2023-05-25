@@ -3,9 +3,10 @@ import reactDom from 'react-dom'
 import './Card.css'
 
 
-export function Card() {
+export function Card(props) {
+    const {ID, currentImgUrls, setCurrentImageUrls, cardIDs, setCardIDs} = props
     const [showDialog,setShowDialog] = useState(false)
-    const [currentImgUrl,setCurrentImageUrl] = useState ("")
+
     const inputRef = useRef(null)
     const addImageRef = useRef(null)
     const parentRef = useRef(null)
@@ -17,14 +18,14 @@ export function Card() {
       };
     const NewImage = ({onClick}) => {
         
-        return <img src={currentImgUrl} onClick={onClick} />
+        return <img src={currentImgUrls[ID]} onClick={onClick} />
     }
     const handleAddImage = (event) => {
         if (event.key === 'Enter') {
-            console.log(addImageRef.current.value);
             const newUrl = addImageRef.current.value
-            
-            setCurrentImageUrl(newUrl)
+            const newImgUrls = [...currentImgUrls]
+            newImgUrls[ID] = newUrl;
+            setCurrentImageUrls(newImgUrls)
           }
         }
       const handleButtonClick = () => {
@@ -36,26 +37,32 @@ export function Card() {
       };
 
     function AddImageButton({onClick}) {
-        return <button onClick={onClick}>Add Image</button>;
+        return <button className= "addImageButton" onClick={onClick}>Add Image</button>;
     }
     function AddImageDialog({onClose}) {
         return (
             <dialog open onClose={onClose}>
-                <input type="url" ref={addImageRef} placeholder='🥺image address plz🥺' onKeyDown={handleAddImage}/>
+                <input type="url" ref={addImageRef} placeholder='🥺image address🥺' onKeyDown={handleAddImage}/>
             </dialog>
         )
     }
+    function DeleteCardButton({onClick}){
+        return <button className="delete" onClick={onClick}>X</button>
+    }
+    function handleDelete(){   
+        setCardIDs([...cardIDs].filter((_,i) => i !== ID).map(num => num > ID ? num - 1 : num))
+    }
     return (
         <div ref={parentRef} className='card'>
-
+        <DeleteCardButton onClick={handleDelete}/>
         <form onSubmit={e => { e.preventDefault(); }}>
         <div className='addImage'>
             {showDialog ? (
-            !currentImgUrl ? <AddImageDialog onClose={handleDialogClose}/> : <NewImage />
+            !currentImgUrls[ID] ? <AddImageDialog onClose={handleDialogClose}/> : <NewImage />
                   ) : (
             <AddImageButton onClick={handleButtonClick}/>
                   )}
-     <input type="text" id="card_input_vis" ref={inputRef} placeholder='New Word' onKeyDown={handleAddText}/>
+     <input type="text" id="card_input" ref={inputRef} placeholder='New Word' onKeyDown={handleAddText}/>
         </div>
     </form>
         
