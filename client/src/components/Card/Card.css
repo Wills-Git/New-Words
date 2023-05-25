@@ -21,7 +21,7 @@
 }
 .card:nth-last-child(-n + 2):not(.add-card){
     border-right: 1px dotted black;
-    margin-right: -1px;
+    margin-right: 0px;
 }
 .card:nth-child(12):not(.add-card){
     margin-right: none !important;

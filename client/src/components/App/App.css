@@ -12,6 +12,53 @@
     margin:auto;
     background-color: #ffffff
 }
+.hero h1{
+    display: grid;
+  justify-content: center;
+  align-content: center;
+font-size: 10rem;
+font-family: sans-serif;
+}
+.hero h2{
+    display: grid;
+  justify-content: center;
+  align-content: center;
+    font-size: 1.5rem;
+font-family: sans-serif;
+}
+.hero ol{
+    
+
+    font-family: sans-serif;
+    font-size: 1.3rem;
+    display: grid;
+  justify-content: center;
+  align-content: center
+}
+.hero li{
+    padding-bottom: 3px;
+}
+
+.hero{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+
+    /* grid-auto-flow: row; */
+    gap: 15px;
+}
+.print-button{
+    height:2.5rem;
+    font-size: 1.3rem;
+    min-width: max-content;
+    width: calc(20% + 50px);
+    border-radius: 5px;
+background: #f7f7f7;
+box-shadow:  9px 9px 18px #d0d0d0,
+             -9px -9px 18px #f0f0f0;
+}
 
 .addPage {
     border-radius: 5px;
@@ -25,4 +72,9 @@
     height: 100px; 
     width: 100px;
     position:relative
+}
+@media print {
+    .hero{
+        display: none;
+    }
 }

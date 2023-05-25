@@ -18,7 +18,12 @@ export function Card(props) {
       };
     const NewImage = ({onClick}) => {
         
-        return <img src={currentImgUrls[ID]} onClick={onClick} />
+        return <img 
+        src={currentImgUrls[ID]} 
+        onClick={onClick}
+        onError={e => {
+            e.target.src = 'https://media.tenor.com/xNHSjjcrl50AAAAM/scooby-doo.gif';
+            e.onerror=null}} />
     }
     const handleAddImage = (event) => {
         if (event.key === 'Enter') {
@@ -42,7 +47,10 @@ export function Card(props) {
     function AddImageDialog({onClose}) {
         return (
             <dialog open onClose={onClose}>
-                <input type="url" ref={addImageRef} placeholder='🥺image address🥺' onKeyDown={handleAddImage}/>
+                <input type="url" ref={addImageRef} 
+                placeholder='image address 🥺' 
+                onKeyDown={handleAddImage} 
+            />
             </dialog>
         )
     }
