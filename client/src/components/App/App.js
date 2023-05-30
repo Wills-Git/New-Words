@@ -7,6 +7,7 @@ function App(){
     const [layouts,setLayouts] = useState([{id: 0, title:'', currentImgUrls:[], cardIDs:[], currentCaptions: []}])
     const [showCreateDialog,setShowCreateDialog] = useState(false)
     const [showLoginDialog,setShowLoginDialog] = useState(false)
+    const [showWhatIsPecsDialog,setShowWhatIsPecsDialog] = useState(false)
     const createRefUsername = useRef(null)
     const createRefPassword = useRef(null)
     const loginRefUsername = useRef(null)
@@ -29,6 +30,13 @@ function App(){
     
       const handleLoginDialogClose = () => {
         setShowLoginDialog(false);
+      };
+      const handleWhatIsPecsDialogOpen = () => {
+        setShowWhatIsPecsDialog(true);
+      };
+    
+      const handleWhatIsPecsDialogClose = () => {
+        setShowWhatIsPecsDialog(false);
       };
 
 
@@ -126,6 +134,21 @@ return (
                 </dialog>
             )
         }
+
+        function WhatIsPecsDialog(){
+            return (
+                <dialog open onClose={handleWhatIsPecsDialogClose}>
+                    <img src ='https://tinyurl.com/pecssample'/>
+                    <ul>
+                        <li>PECS involves the use of picture cards to enable individuals with communication difficulties to express their needs and desires.</li>
+                        <li>The individual learns to exchange a picture card with a communication partner, who then fulfills the requested item or action, reinforcing the concept of communication.
+</li>
+                        <li>Through a series of phases, the individual progresses from basic exchanges to constructing sentences, responding to questions, and eventually engaging in more complex communication and social interactions using the picture cards.</li>
+                    </ul>
+                    <button onClick={handleWhatIsPecsDialogClose}>close</button>
+                    </dialog>
+                )
+        }
     
     function CreateUser({onClick}){
         return (
@@ -135,6 +158,12 @@ return (
     function LoginUser({onClick}){
         return (
             <button className ='login-user' onClick={onClick}> Login</button>
+        )
+    }
+
+    function WhatIsPecs({onClick}){
+        return (
+            <button className ='pecs-button' onClick={onClick}> What Is PECS?</button>
         )
     }
     
@@ -157,9 +186,9 @@ return (
             <ol>
                 <li>click add image 👨‍🎨</li>
                 <li>paste in the address to your image 📋</li>
-                <li>hit enter ⮐</li>
+                <li>hit enter to save your image ⮐</li>
                 <li>click on "New Word" to add your caption ✍️ </li>
-                <li>hit enter ⮐</li>
+                <li>hit enter to save your caption ⮐</li>
                 <li>add another card by clicking on the ➕ </li>
                 <li>add new pages with the button below the layout 👏 </li>
                 <li>you can title your layouts to help you stay organized 🤓</li>
@@ -177,6 +206,8 @@ return (
                 <LoginUserDialog onClose={handleLoginDialogClose}/>
                 ) : (
                 <LoginUser onClick ={handleLoginDialogOpen}/>)}
+
+            
             </div>
             </div>
             {pages}

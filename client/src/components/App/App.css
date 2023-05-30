@@ -102,6 +102,10 @@ box-shadow:  9px 9px 18px #d0d0d0,
     height:fit-content;
     width: fit-content;
 }
+.pecs-buton {
+    height:fit-content;
+    width: fit-content;
+}
 @media print {
     .hero{
         display: none;
