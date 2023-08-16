@@ -1,24 +1,27 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { AuthUserDto, AuthLoginUserDtoType } from './auth-user.dto';
-import { ZodValidationPipe } from './auth-validation.pipe';
+import {
+  Body,
+  Controller,
+  Post,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AwsCognitoService } from './aws-cognito/aws-cognito.service';
+import { AuthLoginUserDto } from './dtos/auth-login-user.dto';
+import { AuthRegisterUserDto } from './dtos/auth-register-user.dto';
 
 @Controller('api/v1/auth')
 export class AuthController {
   constructor(private awsCognitoService: AwsCognitoService) {}
 
   @Post('/register')
-  async register(@Body() authUserDto: AuthLoginUserDtoType) {
-    return await this.awsCognitoService.registerUser(authUserDto);
+  async register(@Body() authRegisterUserDto: AuthRegisterUserDto) {
+    console.log('hit register route');
+    return await this.awsCognitoService.registerUser(authRegisterUserDto);
   }
 
   @Post('/login')
-  async login(
-    @Body(new ZodValidationPipe(AuthUserDto))
-    loginUserDto: AuthLoginUserDtoType,
-  ) {
-    // The loginUserDto will be automatically validated
-    console.log('Valid data:', loginUserDto);
-    // Your logic to handle the validated data goes here
+  @UsePipes(ValidationPipe)
+  async login(@Body() authLoginUserDto: AuthLoginUserDto) {
+    return await this.awsCognitoService.authenticateUser(authLoginUserDto);
   }
 }
