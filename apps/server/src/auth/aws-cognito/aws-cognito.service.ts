@@ -20,14 +20,10 @@ export class AwsCognitoService {
   }
 
   async registerUser(authRegisterUserDto: AuthRegisterUserDto) {
-    const { name, email, password } = authRegisterUserDto;
-    console.log('should be name', name);
+    const { email, password } = authRegisterUserDto;
+
     return new Promise((resolve, reject) => {
       const attributeList = [
-        new CognitoUserAttribute({
-          Name: 'preferred_username',
-          Value: name,
-        }),
         new CognitoUserAttribute({
           Name: 'email',
           Value: email,
