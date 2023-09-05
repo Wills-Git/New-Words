@@ -2,10 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-
+import { AwsSdkModule } from 'nest-aws-sdk';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
-import { DynamoDbService } from './dynamo-db/dynamo-db.service';
+import { DynamoDBService } from './aws/dynamo-db/dynamo-db.service';
+import { DynamoDBModule } from './aws/dynamo-db/dynamo-db.module';
+import { AWSModule } from './aws/aws.module';
+import awsConfig from '../aws.config';
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,8 +17,10 @@ import { DynamoDbService } from './dynamo-db/dynamo-db.service';
       isGlobal: true,
     }),
     AuthModule,
+    DynamoDBModule,
+    AWSModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DynamoDbService],
+  providers: [AppService, DynamoDBService],
 })
 export class AppModule {}
