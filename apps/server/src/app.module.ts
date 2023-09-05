@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
+import { DynamoDbService } from './dynamo-db/dynamo-db.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -14,6 +15,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService],
+  providers: [AppService, DynamoDbService],
 })
 export class AppModule {}
