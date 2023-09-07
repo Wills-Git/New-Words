@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable, Logger } from '@nestjs/common';
 import { AxiosError, AxiosResponse } from 'axios';
 import { catchError, lastValueFrom } from 'rxjs';
+
 import { DynamoDBService } from '@server/aws/dynamo-db/dynamo-db.service';
 
 @Injectable()

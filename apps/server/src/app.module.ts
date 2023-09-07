@@ -18,9 +18,8 @@ import awsConfig from '../aws.config';
     }),
     AuthModule,
     DynamoDBModule,
-    AWSModule,
   ],
   controllers: [AppController],
-  providers: [AppService, DynamoDBService],
+  providers: [AppService],
 })
 export class AppModule {}

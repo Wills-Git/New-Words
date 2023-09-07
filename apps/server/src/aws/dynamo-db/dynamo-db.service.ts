@@ -15,12 +15,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 @Injectable()
 export class DynamoDBService {
   private readonly logger = new Logger(DynamoDBService.name);
-  private readonly credentials = {};
-  constructor(
-    private readonly dynamoDBClient = new DynamoDBClient({
-      region: process.env.AWS_REGION,
-    }),
-  ) {}
+  constructor(private readonly dynamoDBClient: DynamoDBClient) {}
 
   async storeTokens(
     sessionId: string,
