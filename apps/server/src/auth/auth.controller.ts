@@ -1,9 +1,8 @@
-import { Controller, Get, Redirect, Query } from '@nestjs/common';
+import { Controller, Get, Redirect, Query, Res, Logger } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { DynamoDBService } from '@server/aws/dynamo-db/dynamo-db.service';
-import { GoogleOAuthToken } from './auth.interface';
-import { pipe, switchMap, from, catchError, of } from 'rxjs';
-import * as jwt from 'jsonwebtoken';
+import { Response } from 'express';
+import { pipe, switchMap, from, catchError, of, throwError } from 'rxjs';
 
 // @Controller('api/v1/auth')
 // export class AuthController {
@@ -25,15 +24,9 @@ import * as jwt from 'jsonwebtoken';
 //redirect to AWS Cognito hosted UI
 @Controller('/auth')
 export class CognitoAuthController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly dynamoDBService: DynamoDBService,
-  ) {}
+  private readonly logger = new Logger(CognitoAuthController.name);
+  constructor(private readonly authService: AuthService) {}
 
-  private readonly awsCognitoClientId: string = process.env
-    .AWS_COGNITO_CLIENT_ID as string;
-  private readonly awsCognitoDomain: string = process.env
-    .AWS_COGNITO_DOMAIN as string;
   @Get('/login')
   @Redirect()
   async redirectToCognitoHostedUI() {
@@ -43,24 +36,16 @@ export class CognitoAuthController {
   }
 
   @Get('/code')
-  async authenticate(@Query('code') grantCode: string) {
-    const response = await this.authService.getAccessToken(grantCode);
-    const { id_token, access_token, refresh_token } = response.data;
-
-    const decodedToken = jwt.decode(id_token) as GoogleOAuthToken;
-    if (decodedToken && decodedToken.email) {
-      // Extract the email field from the decoded token
-      const email = decodedToken;
-
-      console.log(decodedToken);
-    }
-
+  @Redirect()
+  async authenticate(@Query('code') grantCode: string, @Res() res: Response) {
     // console.log(idToken, 'idtoken');
-    return from(
-      this.dynamoDBService.storeTokens(id_token, access_token, refresh_token),
-    ).pipe(
-      switchMap(() => of({ message: 'Tokens stored successfully' })),
-      catchError((error) => of({ error: 'Failed to store tokens' })),
-    );
+    try {
+      await this.authService.handleOAuthResponse(grantCode, res);
+      this.logger.log('tokens stored');
+      return { url: 'http://localhost:4000' };
+    } catch (error) {
+      this.logger.error('Failed to store tokens:', error);
+      throw error; // Re-throw the error to propagate it
+    }
   }
 }

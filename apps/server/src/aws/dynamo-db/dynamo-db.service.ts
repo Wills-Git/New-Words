@@ -10,7 +10,7 @@ import {
   UpdateItemCommandInput,
 } from '@aws-sdk/client-dynamodb';
 import { Observable, from, throwError } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap, map, finalize } from 'rxjs/operators';
 
 @Injectable()
 export class DynamoDBService {
@@ -18,16 +18,18 @@ export class DynamoDBService {
   constructor(private readonly dynamoDBClient: DynamoDBClient) {}
 
   async storeTokens(
-    sessionId: string,
+    userID: string,
+    sessionID: string,
     accessToken: string,
     refreshToken: string,
   ) {
     const params: PutItemCommandInput = {
       TableName: 'newwords-user-tokens',
       Item: {
-        SessionId: { S: sessionId },
-        AccessToken: { S: accessToken },
-        RefreshToken: { S: refreshToken },
+        userID: { S: userID },
+        sessionID: { S: sessionID },
+        accessToken: { S: accessToken },
+        refreshToken: { S: refreshToken },
       },
     };
 
@@ -39,16 +41,17 @@ export class DynamoDBService {
         this.logger.log('Error storing tokens', error);
         return throwError(() => error);
       }),
-      map(() => undefined),
+      finalize(() => this.logger.log('Completed storing tokens')),
     );
   }
 
-  getTokens(sessionId: string): Observable<any> {
+  getTokens(sessionID: string, userID: string): Observable<any> {
     // Define the input parameters for the GetItemCommand
     const params: GetItemCommandInput = {
       TableName: 'newwords-user-tokens',
       Key: {
-        SessionId: { S: sessionId },
+        userID: { S: userID },
+        sessionID: { S: sessionID },
       },
     };
 
@@ -74,7 +77,7 @@ export class DynamoDBService {
     const params: UpdateItemCommandInput = {
       TableName: 'newwords-user-tokens',
       Key: {
-        SessionId: { S: sessionId },
+        sessionId: { S: sessionId },
       },
       UpdateExpression: 'SET AccessToken = :accessToken',
       ExpressionAttributeValues: {

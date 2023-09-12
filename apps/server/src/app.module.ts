@@ -8,7 +8,10 @@ import { AuthModule } from './auth/auth.module';
 import { DynamoDBService } from './aws/dynamo-db/dynamo-db.service';
 import { DynamoDBModule } from './aws/dynamo-db/dynamo-db.module';
 import { AWSModule } from './aws/aws.module';
+import { PhotosController } from './photo/photo.controller';
 import awsConfig from '../aws.config';
+import { HttpModule } from '@nestjs/axios';
+import { PhotoModule } from './photo/photo.module';
 
 @Module({
   imports: [
@@ -18,8 +21,10 @@ import awsConfig from '../aws.config';
     }),
     AuthModule,
     DynamoDBModule,
+    PhotoModule,
+    HttpModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PhotosController],
   providers: [AppService],
 })
 export class AppModule {}

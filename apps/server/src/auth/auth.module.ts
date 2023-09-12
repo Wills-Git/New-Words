@@ -1,15 +1,19 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { CognitoAuthController } from './auth.controller';
 import { AwsCognitoService } from './aws-cognito/aws-cognito.service';
 import { HttpModule } from '@nestjs/axios';
 import { AuthService } from './auth.service';
-import { DynamoDBService } from '@server/aws/dynamo-db/dynamo-db.service';
 import { DynamoDBModule } from '@server/aws/dynamo-db/dynamo-db.module';
-import { AWSModule } from '@server/aws/aws.module';
+import { CookiesMiddleware } from './cookies/cookies.middleware';
 
 @Module({
   imports: [HttpModule, DynamoDBModule],
   controllers: [CognitoAuthController],
   providers: [AwsCognitoService, AuthService],
+  exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CookiesMiddleware).forRoutes('*');
+  }
+}

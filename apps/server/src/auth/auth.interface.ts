@@ -4,6 +4,13 @@ export interface AccessTokenResponse {
   refreshToken: string;
 }
 
+export interface UserSession {
+  userID: string;
+  sessionID: string;
+  accessToken: string;
+  refreshToken: string;
+}
+
 export interface GoogleOAuthToken {
   sub: string; // Subject
   iss: string; // Issuer
@@ -19,4 +26,11 @@ export interface GoogleOAuthToken {
   picture: string; // Profile Picture URL
   locale: string; // Locale
   // Add other specific claims as needed
+}
+
+export interface RefreshReponse {
+  access_token: string;
+  id_token: string;
+  token_type: string;
+  expires: number;
 }
